@@ -7,6 +7,6 @@ on:
 
 jobs:
   use-hello-world-workflow:
-    uses: ./github/workflows/hello-world-reusable.yml@main
+    uses: ./.github/workflows/hello-world-reusable.yml@main
     with:
       name: "GitHub Actions"
