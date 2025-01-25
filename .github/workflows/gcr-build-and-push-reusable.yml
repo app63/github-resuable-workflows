@@ -1,0 +1,68 @@
+name: Build and Push Docker Image to Google Artifact Registry
+
+on:
+  workflow_call:
+    inputs:
+      project_id:
+        description: 'Google Cloud Project ID'
+        required: true
+        type: string
+      gcr_region:
+        description: 'Google Artifact Registry Region'
+        required: true
+        type: string
+        default: 'us'
+      image_name:
+        description: 'Name of the Docker image'
+        required: true
+        type: string
+      repository_name:
+        description: 'Google Artifact Registry repository name'
+        required: true
+        type: string
+      image_tag:
+        description: 'Tag to use for the Docker image (e.g., latest, v1.0.0)'
+        required: true
+        type: string
+      workload_identity_pool:
+          description: 'Workload Identity pool'
+          required: true
+          type: string
+      workload_identity_provider:
+        description: 'Workload Identity provider'
+        required: true
+        type: string
+      service_account:
+        description: 'Service account associated with Workload Identity'
+        required: true
+        type: string
+      docker_file:
+        description: 'Docker file location'
+        required: true
+        type: string
+        default: '.'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Authenticate to Google Cloud using Workload Identity
+      uses: google-github-actions/auth@v2
+      with:
+        workload_identity_provider: "projects/${{ inputs.project_id }}/locations/global/workloadIdentityPools/${{ inputs.workload_identity_pool }}/providers/${{ inputs.workload_identity_provider }}"
+        service_account: ${{ inputs.service_account }}@${{ inputs.project_id }}.iam.gserviceaccount.com"
+
+    - name: Build Docker image
+      run: |
+        docker build -t ${{ inputs.gcr_region }}-docker.pkg.dev/${{ inputs.project_id }}/${{ inputs.repository_name }}/${{ inputs.image_name }}:${{ inputs.image_tag }} ${{ inputs.docker_file }}
+
+    - name: Push Docker image to Google Artifact Registry
+      run: |
+        docker push ${{ inputs.gcr_region }}-docker.pkg.dev/${{ inputs.project_id }}/${{ inputs.repository_name }}/${{ inputs.image_name }}:${{ inputs.image_tag }}
