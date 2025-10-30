@@ -7,10 +7,18 @@ on:
         required: true
         type: string
         default: "World"
+    outputs:
+      message:
+        value: ${{ jobs.hello-world-job.outputs.message }}
 
 jobs:
   hello-world-job:
+    outputs:
+      message: ${{ steps.print-hello.outputs.message }}
     runs-on: ubuntu-latest
     steps:
       - name: Print Hello World
-        run: echo "Hello, ${{ inputs.name }}!!!"
+        id: print-hello
+        run: |
+          echo "Hello, ${{ inputs.name }}!!!"
+          echo "message='ABCDEFGHIJKLMNOPQRSTUVWXYZ'" >> $GITHUB_OUTPUT
