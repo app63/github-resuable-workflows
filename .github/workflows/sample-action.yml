@@ -1,0 +1,29 @@
+name: Sample Action Workflow
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Name to greet"
+        required: true
+      day:
+        description: "Day of the week"
+        required: false
+        default: "Monday"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  sample-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sample Action
+        uses: app63/sample-github-action@v1
+        id: sample-action
+        with:
+          name: ${{ github.event.inputs.name }}
+          day: ${{ github.event.inputs.day }}
+      - name: Output
+        run: |
+          echo "GREETING: ${{ steps.sample-action.outputs.token }}"
