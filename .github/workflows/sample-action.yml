@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Sample Action
-        uses: app63/sample-github-action@v1
+        uses: app63/sample-action@v1
         id: sample-action
         with:
           name: ${{ github.event.inputs.name }}
