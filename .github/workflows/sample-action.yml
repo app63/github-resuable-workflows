@@ -27,15 +27,15 @@ jobs:
   sample-action:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Sample Action Repository
-        uses: actions/checkout@v5
-        with:
-          repository: app63/sample-action
-          ref: v1
-          token: ${{ secrets.PAT_FOR_SAMPLE_ACTION }}
-          path: .github/actions/sample-action
+      # - name: Checkout Sample Action Repository
+      #   uses: actions/checkout@v5
+      #   with:
+      #     repository: app63/sample-action
+      #     ref: v1
+      #     token: ${{ secrets.PAT_FOR_SAMPLE_ACTION }}
+      #     path: .github/actions/sample-action
       - name: Sample Action
-        uses: ./.github/actions/sample-action
+        uses: actions/sample-action
         id: sample-action
         with:
           name: ${{ github.event.inputs.name }}
