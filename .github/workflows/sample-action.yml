@@ -9,6 +9,15 @@ on:
         description: "Day of the week"
         required: false
         default: "Monday"
+        type: choice
+        options:
+          - Monday
+          - Tuesday
+          - Wednesday
+          - Thursday
+          - Friday
+          - Saturday
+          - Sunday
 
 permissions:
   id-token: write
