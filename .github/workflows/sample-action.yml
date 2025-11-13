@@ -18,6 +18,7 @@ on:
           - Friday
           - Saturday
           - Sunday
+          - Funday # Invalid entry for testing
 
 permissions:
   id-token: write
