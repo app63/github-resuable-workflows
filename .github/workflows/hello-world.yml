@@ -24,4 +24,4 @@ jobs:
           echo "OUTPUT: ${{ needs.use-hello-world-workflow.outputs.message }}"
           echo "================== ENVIRONMENT =================="
           env
-          echo ""================== END =================="
+          echo "================== END =================="
