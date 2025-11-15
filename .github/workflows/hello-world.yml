@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   use-hello-world-workflow:
     uses: app63/github-resuable-workflows/.github/workflows/hello-world-reusable.yml@main
